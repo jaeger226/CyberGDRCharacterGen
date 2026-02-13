@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Serata GDR – Scheda Personaggio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      background: #111; /* sfondo esterno */
+    }
+
+    /* .form-wrapper {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px;
+      background: url("img/background.png") no-repeat center center;
+      background-size: cover;
+      border-radius: 12px;
+    } */
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    section {
+      background: white;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 6px;
+      margin-top: 4px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .radio-group label {
+      display: block;
+      margin-left: 10px;
+    }
+    .stat-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      margin: 20px 0;
+    }
+
+    .name-col input {
+      width: 200px;
+    }
+
+    .stat-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .stat-col label {
+      font-size: 0.9em;
+    }
+
+    .stat-col input {
+      width: 60px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .stat-center {
+      display: flex;
+      align-items: center;
+    }
+
+    #btn-calcola {
+      padding: 10px 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    label:has(input:disabled) {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    /* Tema chiaro */
+    body.light-theme,
+    body.light-theme section,
+    body.light-theme div.form-container {
+      background-color: #f5f5f5;
+      color: #222;
+    }
+
+    /* Tema scuro */
+    body.dark-theme,
+    body.dark-theme section,
+    body.dark-theme div.form-container {
+      background-color: #1e1e1e;
+      color: #f5f5f5;
+    }
+
+    body.dark-theme input,
+    body.dark-theme select,
+    body.dark-theme textarea {
+      background-color: #333;
+      color: #f5f5f5;
+      border: 1px solid #555;
+    }
+
+    body.dark-theme label {
+      color: #f5f5f5;
+    }
+
+    body.dark-theme progress {
+      background-color: #555;
+    }
+
+    /* Pulsante tema */
+    button#btn-toggle-theme {
+      background-color: #eee;
+    }
+
+    body.dark-theme button#btn-toggle-theme {
+      background-color: #444;
+      color: #fff;
+    }
+
+        /* Progress bar sempre uguale */
+    progress#budget-bar {
+      background-color: #ddd; /* sfondo barra */
+      accent-color: #4caf50;  /* colore riempimento */
+    }
+    /* Non cambiare la progress bar nel tema scuro */
+    body.dark-theme progress#budget-bar {
+      background-color: #ddd; /* mantiene lo sfondo chiaro */
+      accent-color: #4caf50;  /* mantiene il verde */
+    }
+    #error-message {
+      padding: 6px;
+      border: 1px solid red;
+      border-radius: 4px;
+      background-color: #330000;
+      color: #ffaaaa;
+    }
+
+  </style>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="script.js" defer></script>
+<body>
+<div class="form-wrapper">
+
+  <!--
+<h1>Serata GDR</h1>
+
+
+<section>
+  <p><strong>Data:</strong> Venerdì 23 Gennaio 2026</p>
+  <p><strong>Ora:</strong> 19:30</p>
+  <p><strong>Luogo:</strong> Villino delle Civette – Grottaferrata</p>
+  <p>
+    Ti aspettiamo per una serata di gioco di ruolo all’insegna del divertimento e
+    dell’avventura. Evento riservato ai soci, massimo 6 giocatori.
+  </p>
+</section>
+
+<section>
+  <h2>Partecipazione</h2>
+
+  <label>Nome *
+    <input type="text" required>
+  </label>
+
+  <div class="radio-group">
+    <p>Parteciperò? *</p>
+    <label><input type="radio" name="partecipazione" required> Sì</label>
+    <label><input type="radio" name="partecipazione"> Forse</label>
+  </div>
+</section>
+-->
+<section>
+  <h2>CYBER</h2>
+  
+  <div style="text-align:center;">
+    <button id="btn-toggle-theme" 
+    title="Cambia tema" 
+    style="position:fixed; top:10px; right:10px; z-index:1000; 
+    font-size:18px; padding:6px 10px; border:none; border-radius:5px; 
+    cursor:pointer;">
+    🌙
+    </button>
+  </div>
+  <div style="text-align:center;">
+    <img 
+      src="img/cairn-cyber.jpg" 
+      alt="Cairn Cyber" 
+      style="max-width:100%; width:400px; border-radius:8px;"
+    >
+  </div>
+  <p>
+    Cyber è un gioco di ruolo che racconta l'esplorazione di un mondo oscuro 
+    del prossimo futuro, dominato dalle megacorporazioni e dalla tecnologia. 
+    I giocatori assumono il ruolo degli abitanti di una gigantesca metropoli: 
+    una città affollata e rumorosa, piena di avidità, ipocrisia e loschi traffici. 
+    I personaggi possono fare carriera scalando i vertici delle zaibatsu (grandi aziende multinazionali), 
+    operare ai margini della legge come liberi professionisti su commissione o condurre una vita tranquilla (ma non senza problemi) come membri di una delle molteplici fazioni - dalle sette religiose ai servizi di emergenza della città.
+  </p>
+  <h2>Regolamento</h2>
+  <h3>Statistiche</h3>
+  <p>I personaggi hanno a disposizione tre statistiche da utilizzare in diverse circostanze:<br>
+    • <strong>Biologia (BIO) </strong>- in situazioni che richiedono forza fisica, agilità o resistenza<br>
+    • <strong>Psiche (PSI) </strong>- per superare prove di intelligenza, conoscenza, forza di volontà o di interazione sociale<br>
+    • <strong>Interfaccia (INF) </strong>- per affrontare tutte le minacce che riguardano la tecnologia<br>
+  </p>
+  <p>Oltre a queste tre abilità il giocatore ha a disposizione dei <strong>Punti Ferita (PF)</strong>.<br>
+  I PF servono a "proteggere" le statistiche BIO/PSI/INF.<br>
+  Quando subisci danno:<br>
+  <strong>1. </strong> Prima si sottraggono dai Punti Ferita<br>
+  <strong>2. </strong> Se i PF scendono a 0, il danno in eccesso va alla caratteristica appropriata (BIO / PSI / INF)
+  </p>
+    <h3>Tiri Salvezza</h3>
+  <p>Un tiro Salvezza serve ad evitare esiti negativi derivanti da scelte e circostanze rischiose.
+    <strong>Per superare un tiro salvezza il giocatore deve tirare un dado d20 relativo al punteggio di abilità adeguato.
+    Se il risultato sarà uguale o inferiore al punteggio di abilità, il giocatore avrà successo.</strong>
+    In poche parole ottenere 1 sarà sempre un successo, mentre 20 corrisponderà sempre al fallimento della prova.<br></p>
+  <p>Esempio: Ada cerca di hackerare un computer senza sapere la password, quindi esegue una prova di INF. Mettiamo caso che il suo punteggio di INF sia 7.
+    Se tirando il d20 otterrà 7 o meno, Ada avrà hackerato con successo il computer.<br>
+  </p>
+</section>
+<section>
+  <h2>Ambientazione</h2>
+  <p><strong>Anno 2086.</strong><br>
+  Il progresso e i conflitti hanno cancellato le nazioni, lasciando solo blocchi di potere.<br>
+  A Occidente domina la New Atlantic Pacific Federation (NAP),
+  una super-nazione nata dall’unione di America e Giappone,
+  padrona di mari, mercati e tecnologia.<br>
+  A Oriente si erge il blocco Russia–Cina–India,
+  militarizzato e pronto a un nuovo conflitto globale.<br>
+  L’Europa non esiste più,
+  ridotta a rovine radioattive dalle guerre nucleari.<br>
+  Il pianeta soffoca:
+  clima fuori controllo, foreste in estinzione, megalopoli infinite.<br>
+  Nella NAP Federation il potere è delle multinazionali.
+  Il capitalismo ha vinto: pochi nel lusso, milioni nella miseria.
+  La sanità è privata. La sopravvivenza si paga.<br>
+  Benvenuto nella tua nuova realtà.
+  </p>
+  <h2>La Missione</h2>
+  <p>
+    Proxima City è la capitale della NAP Federation, una metropoli interamente dominata dalle zaibatsu, tra cui spicca la potentissima Dedalus Corporation.
+    Sei stato contattato in segreto da un noto cyber-terrorista conosciuto come Shinobi. La missione: una rapina alla Dedalus Tower.<br>
+    La ricompensa è enorme, ben oltre le tue paghe ordinarie, ma non illuderti: non si tratta di un gioco da ragazzi. La linea tra riuscita e morte è sottile come un capello.
+    Tuttavia non sei l’unico ad essere stato ingaggiato.<br>
+    Assicurati di essere pronto.
+    Quando il timer parte, non si torna indietro.
+  </p>
+
+
+</section>
+<section>
+  <h2>Scheda Personaggio</h2>
+
+  
+  <div class="name-col">
+    <label>Nome Personaggio</label>
+      <input type="text" required>
+    <br>
+    <h3>Statistiche</h3>
+    <label>Punti Ferita</label>
+      <input type="text" id="val-pf" style="width: 60px;text-align: center;font-weight: bold;" readonly>
+
+  </div>
+ 
+
+  <div class="stat-wrapper">
+    <div class="stat-center">
+      <button id="btn-calcola">Calcola<br>Statistiche</button>
+    </div>
+
+    <div class="stat-col">
+      <label>BIO
+        <input type="text" id="val-bio" readonly>
+      </label>
+      <label>PSI
+        <input type="text" id="val-psi" readonly>
+      </label>
+      <label>INF
+        <input type="text" id="val-inf" readonly>
+      </label>
+    </div>
+
+    <div class="stat-col">
+      <label>BIO Bonus
+        <input type="text" id="val-bio-bonus" readonly>
+      </label>
+      <label>PSI Bonus
+        <input type="text" id="val-psi-bonus" readonly>
+      </label>
+      <label>INF Bonus
+        <input type="text" id="val-inf-bonus" readonly>
+      </label>
+    </div>
+
+  </div>
+
+  <label>Budget:</label>
+    <progress id="budget-bar" value="0" max="100"></progress>
+  <span id="budget-val">0 crediti</span>
+
+  <div class="radio-group" id="background-radio">
+    <h3>Background</h3>
+    <label>
+      <input type="radio" name="occupazione"> Impiegato
+      <span class="descrizione">(Psi +1)</span>
+    </label>
+        
+    <label>
+      <input type="radio" name="occupazione"> Operaio
+      <span class="descrizione">(Bio +1 o Inf +1)</span>
+      <!-- Sottoradio per scegliere il bonus -->
+      <div class="scelta-bonus" style="display:none; margin-left:20px;">
+        <label><input type="radio" name="bonus-operaio" value="Bio"> Bio +1</label>
+        <label><input type="radio" name="bonus-operaio" value="Inf"> Inf +1</label>
+      </div>
+    </label>
+
+    <label>
+      <input type="radio" name="occupazione"> Guardia giurata
+      <span class="descrizione">(Bio +1)</span>
+    </label>
+        
+    <label>
+      <input type="radio" name="occupazione"> Meccanico
+      <span class="descrizione">(Bio +1)</span>
+    </label>
+        
+    <label>
+      <input type="radio" name="occupazione"> Dottore
+      <span class="descrizione">(Psi +1)</span>
+    </label>
+        
+    <label>
+      <input type="radio" name="occupazione"> Pilota
+      <span class="descrizione">(Bio +1)</span>
+    </label>
+        
+    <label>
+      <input type="radio" name="occupazione"> Camionista
+      <span class="descrizione">(Bio +1)</span>
+    </label>
+        
+    <label>
+      <input type="radio" name="occupazione"> Buttafuori
+      <span class="descrizione">(Bio +1 o Psi +1)</span>
+      <!-- Sottoradio per scegliere il bonus -->
+      <div class="scelta-bonus" style="display:none; margin-left:20px;">
+        <label><input type="radio" name="bonus-operaio" value="Bio"> Bio +1</label>
+        <label><input type="radio" name="bonus-operaio" value="Psi"> Psi +1</label>
+      </div>
+    </label>
+        
+    <label>
+      <input type="radio" name="occupazione"> Reporter
+      <span class="descrizione">(Psi +1)</span>
+    </label>
+    
+    <label>
+      <input type="radio" name="occupazione"> Cybertecnico
+      <span class="descrizione">(Inf +1)</span>
+    </label>
+    
+    <label>
+      <input type="radio" name="occupazione"> Sviluppatore Software
+      <span class="descrizione">(Inf +1)</span>
+    </label>
+
+    <label>
+      <input type="radio" name="occupazione"> Teppista
+      <span class="descrizione">(Bio +1 o Psi +1)</span>
+      <!-- Sottoradio per scegliere il bonus -->
+      <div class="scelta-bonus" style="display:none; margin-left:20px;">
+        <label><input type="radio" name="bonus-operaio" value="Bio"> Bio +1</label>
+        <label><input type="radio" name="bonus-operaio" value="Psi"> Psi +1</label>
+      </div>
+    </label>
+
+    <label>
+      <input type="radio" name="occupazione"> Influencer
+      <span class="descrizione">(Psi +1)</span>
+    </label>
+
+    <label>
+      <input type="radio" name="occupazione"> Ufficiale amministrativo
+      <span class="descrizione">(Psi +1)</span>
+    </label>
+
+    <label>
+      <input type="radio" name="occupazione"> Poliziotto
+      <span class="descrizione">(Bio +1 o Psi +1)</span>
+      <!-- Sottoradio per scegliere il bonus -->
+      <div class="scelta-bonus" style="display:none; margin-left:20px;">
+        <label><input type="radio" name="bonus-operaio" value="Bio"> Bio +1</label>
+        <label><input type="radio" name="bonus-operaio" value="Psi"> Psi +1</label>
+      </div>
+    </label>
+ 
+    <label>
+      <input type="radio" name="occupazione"> Detective
+      <span class="descrizione">(Psi +1)</span>
+    </label>
+
+    <label>
+      <input type="radio" name="occupazione"> Estetista
+      <span class="descrizione">(Inf +1 o Psi +1)</span>
+      <!-- Sottoradio per scegliere il bonus -->
+      <div class="scelta-bonus" style="display:none; margin-left:20px;">
+        <label><input type="radio" name="bonus-operaio" value="Inf"> Inf +1</label>
+        <label><input type="radio" name="bonus-operaio" value="Psi"> Psi +1</label>
+      </div>
+    </label>
+
+    <label>
+      <input type="radio" name="occupazione"> Impiegato del governo
+      <span class="descrizione">(Bio +1)</span>
+    </label>
+
+  </div>
+
+  <label>Note sul background
+    <textarea placeholder="Scrivi qui le note sul tuo background...(es. perché hai lasciato il lavoro?)"></textarea>
+  </label>
+
+  <!--
+  <div class="radio-group">
+    <p>Abbonamento</p>
+    <label><input type="radio" name="livello"> Bronzo</label>
+    <label><input type="radio" name="livello"> Argento</label>
+    <label><input type="radio" name="livello"> Oro</label>
+    <label><input type="radio" name="livello"> Platino</label>
+  </div>-->
+
+  <h3>Armi</h3>
+    <div id="armi-container"></div>
+
+  <h3>Armature</h3>
+    <div id="armatura-container"></div>
+
+  <h3>Cybermodifiche</h3>
+    <p>La quantità massima di cybermodifiche che un personaggio può installare è pari al suo livello di INF.<br>
+    L’attivazione di una cybermodifica richiede di segnare un punto di Fatica nell’inventario.<br>
+    </p>
+    <div id="cybermodifiche-container"></div>
+
+
+
+  <h3>Software</h3>
+    <p>L'<strong>Infosfera</strong> è una rete informatica globale che collega tutti i dispositivi
+    e sistemi al servizio degli esseri umani. 
+    I singoli cluster di dati sono indicati come nodi e rappresentati come 
+    l’equivalente di “luoghi” nel mondo fisico. Ogni personaggio è in grado di interagire 
+    con la rete utilizzando un avatar che lo rappresenta.<br> 
+    Ogni personaggio può eseguire un certo numero di attività nell’infosfera:<br><br>
+    • ricerca di informazioni<br>
+    • contattare persone con indirizzi noti o luoghi pubblici<br>
+    • ottenere informazioni pubbliche<br>
+    • accedere a prodotti e servizi offerti nell’infosfera<br><br>
+    Tutte le attività come hacking, sicurezza e accesso a informazioni proprietarie richiedono una cybermodifica denominata <strong>neuroprocessore</strong>. Le azioni dell’infosfera prendono in considerazione l’abilità INF.
+    Un personaggio con un neuroprocessore può utilizzarlo per memorizzare dei programmi. 
+    L’attivazione di un software - ad eccezione degli utility - richiede di segnare un 
+    punto di Fatica nell’inventario.<br> 
+    La quantità massima di software che un hacker può attivare è pari al suo livello di INF.
+    </p>
+    <div id="software-container"></div>
+
+  <h3>Contenitori</h3>
+    <div id="contenitori-container"></div>
+
+  
+  <h3>Inventario</h3>
+    <div id="inventario" style="display:flex; flex-direction:column; gap:6px; max-width:400px;">
+    <input type="text" class="inv-item" placeholder="Oggetto 1">
+    <input type="text" class="inv-item" placeholder="Oggetto 2">
+    <input type="text" class="inv-item" placeholder="Oggetto 3">
+    <input type="text" class="inv-item" placeholder="Oggetto 4">
+    <input type="text" class="inv-item" placeholder="Oggetto 5">
+    <input type="text" class="inv-item" placeholder="Oggetto 6">
+    <input type="text" class="inv-item" placeholder="Oggetto 7">
+    <input type="text" class="inv-item" placeholder="Oggetto 8">
+    <input type="text" class="inv-item" placeholder="Oggetto 9">
+    <input type="text" class="inv-item" placeholder="Oggetto 10">
+</div>
+  </label>
+    <br><br>
+  <div id="error-message" style="color: red; margin-bottom: 5px; display: none;"></div>
+  <button id="btn-crea-scheda" style="padding:12px 18px; font-weight:bold;" disabled>
+    Crea Scheda
+  </button>
+
+</section>
+</div>
+
+</body>
+</html>
